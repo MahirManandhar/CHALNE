@@ -546,3 +546,8 @@ max-width: 600px;
 .fixx{
   max-height: 400px;
 }
+
+.small
+{
+  max-width: 10px;
+}

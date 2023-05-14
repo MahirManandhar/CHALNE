@@ -52,7 +52,7 @@ export default function LoginHome(props) {
   /** @type React.MutableRefObject<HTMLInputElement> */
   const destiantionRef = useRef();
   const locationRef = useRef();
-  const data = ['item 1', 'item 2', 'item 3'];
+  const data = ['item 1','item 2','item 3'];
 
   function Point() {
     if (locationRef.current.value === "") {
@@ -81,30 +81,9 @@ export default function LoginHome(props) {
     return <SkeletonText />;
   }
 
-  async function calculateRoute() {
-    if (originRef.current.value === "" || destiantionRef.current.value === "") {
-      return;
-    }
-    // eslint-disable-next-line no-undef
-    const directionsService = new google.maps.DirectionsService();
-    const results = await directionsService.route({
-      origin: originRef.current.value,
-      destination: destiantionRef.current.value,
-      // eslint-disable-next-line no-undef
-      travelMode: google.maps.TravelMode.DRIVING,
-    })
-    setDirectionsResponse(results)
-    setDistance(results.routes[0].legs[0].distance.text)
-    setDuration(results.routes[0].legs[0].duration.text)
-  }
 
-  function clearRoute() {
-    setDirectionsResponse(null)
-    setDistance('')
-    setDuration('')
-    originRef.current.value = ''
-    destiantionRef.current.value = ''
-  }
+
+
   console.log(props.result)
 
   return (
@@ -267,8 +246,9 @@ export default function LoginHome(props) {
                
 
                 {data.map((item, index) => (
-                  <p key={index}> {props.setData(index)}  <AddPlace/>            </p>
+                  <p key={index}>  {props.setData(index)} <AddPlace/>                                       </p>
                 ))}
+
                 <Box flexGrow={1}>
                 <Autocomplete>
                   <Input
@@ -278,10 +258,9 @@ export default function LoginHome(props) {
                   />
                   
                 </Autocomplete>
-              </Box>
-              <Button colorScheme="purple" type="submit" onClick={Point}>
-                Calculate Route
-              </Button>
+              </Box>               <Button colorScheme="purple" type="submit" onClick={Point}>
+              Submit
+            </Button>  
         
               </Column>
             </Grid>
@@ -301,9 +280,9 @@ export default function LoginHome(props) {
                 zoom={13}
                 mapContainerStyle={{ width: "100%", height: "100%" }}
                 options={{
-                  zoomControl: false,
-                  streetViewControl: false,
-                  mapTypeControl: false,
+                  zoomControl: true,
+                  streetViewControl: true,
+                  mapTypeControl: true,
                   fullscreenControl: false,
                 }}
                 onLoad={(map) => setMap(map)}
@@ -314,62 +293,7 @@ export default function LoginHome(props) {
                 )}
               </GoogleMap>
             </Box>
-            <Box
-              p={4}
-              borderRadius="lg"
-              m={4}
-              marginRight={330}
-              bgColor="white"
-              shadow="base"
-              minW="container.md"
-              zIndex="1"
-            >
-              <HStack spacing={2} justifyContent="space-between">
-                <Box flexGrow={1}>
-                  <Autocomplete>
-                    <Input type="text" placeholder="Origin" ref={originRef} />
-                  </Autocomplete>
-                </Box>
-                <Box flexGrow={1}>
-                  <Autocomplete>
-                    <Input
-                      type="text"
-                      placeholder="Destination"
-                      ref={destiantionRef}
-                    />
-                  </Autocomplete>
-                </Box>
-
-                <ButtonGroup>
-                  <Button
-                    colorScheme="purple"
-                    type="submit"
-                    onClick={calculateRoute}
-                  >
-                    Calculate Route
-                  </Button>
-                  <IconButton
-                    aria-label="center back"
-                    icon={<FaTimes />}
-                    onClick={clearRoute}
-                  />
-                </ButtonGroup>
-              </HStack>
-              <HStack spacing={4} mt={4} justifyContent="space-between">
-                <Text>Distance: {distance} </Text>
-                <Text>Duration: {duration} </Text>
-                <Text>"BY VEHICLE" </Text>
-                <IconButton
-                  aria-label="center back"
-                  icon={<FaLocationArrow />}
-                  isRound
-                  onClick={() => {
-                    map.panTo(center)
-                    map.setZoom(13)
-                  }}
-                />
-              </HStack>
-            </Box>
+            
           </Flex>
         </div>
       </div>
